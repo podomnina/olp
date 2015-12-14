@@ -11,18 +11,14 @@ import java.util.LinkedList;
  * Created by PolinaDomnina on 08.11.2015.
  */
 public class Reception {
-    private IntegerProperty id_reception;
-    private StringProperty date;
+    private int id_reception;
+    private String date;
 
     public Reception(int id_reception, String date) {
-        this.id_reception = new SimpleIntegerProperty(id_reception);
-        this.date = new SimpleStringProperty(date);
-    }
-    public Reception(LinkedList<String> fields){
-        this.id_reception=new SimpleIntegerProperty(Integer.parseInt(fields.get(0)));
-        this.date = new SimpleStringProperty(fields.get(1));
+        this.id_reception = id_reception;
+        this.date = date;
     }
 
-    public IntegerProperty КодProperty() { return id_reception; }
-    public StringProperty Дата_посещенияProperty() { return date; }
+    public int getId_reception() { return id_reception; }
+    public String getDate() { return date; }
 }

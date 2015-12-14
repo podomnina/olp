@@ -11,23 +11,17 @@ import java.util.LinkedList;
  * Created by PolinaDomnina on 08.11.2015.
  */
 public class Service {
-    private IntegerProperty id_service;
-    private StringProperty service_name;
-    private IntegerProperty price;
+    private int id_service;
+    private String service_name;
+    private int price;
 
     public Service(int id_service, String service_name, int price) {
-        this.id_service = new SimpleIntegerProperty(id_service);
-        this.service_name = new SimpleStringProperty(service_name);
-        this.price = new SimpleIntegerProperty(price);
-    }
-    public Service(LinkedList<String> fields){
-        this.id_service=new SimpleIntegerProperty(Integer.parseInt(fields.get(0)));
-        this.service_name = new SimpleStringProperty(fields.get(1));
-        this.price = new SimpleIntegerProperty(Integer.parseInt(fields.get(2)));
-
+        this.id_service = id_service;
+        this.service_name = service_name;
+        this.price = price;
     }
 
-    public IntegerProperty КодProperty() { return id_service; }
-    public StringProperty Название_услугиProperty() { return service_name; }
-    public IntegerProperty ЦенаProperty() { return price; }
+    public int getId_service() { return id_service; }
+    public String getService_name() { return service_name; }
+    public int getPrice() { return price; }
 }
