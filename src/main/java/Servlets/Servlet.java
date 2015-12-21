@@ -4,6 +4,7 @@ import Database.DatabaseHelper;
 import Database.Tables.*;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,14 +22,18 @@ public class Servlet extends HttpServlet {
 
     DatabaseHelper db;
     List<Object> list;
+    @Override
+    public void init(ServletConfig servletConfig){
+        db=new DatabaseHelper();
+        db.UsingDatabase();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //super.doPost(request, response);
-       // response.setContentType("text/html");
-        //request.setCharacterEncoding("UTF-8");
-
+        System.out.println("POST!");
+        String text=request.getParameter("input");
+        System.out.println(text);
 
         response.sendRedirect("index");
     }
@@ -42,10 +47,9 @@ public class Servlet extends HttpServlet {
        response.setCharacterEncoding("UTF-8");
 
         //response.setContentType("text/html");
-        db=new DatabaseHelper();
-        db.UsingDatabase();
 
-        request.setAttribute("list",list);
+
+
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
