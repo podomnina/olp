@@ -43,7 +43,7 @@ public class DatabaseHelper {
     public void CloseDatabase(){
         try
         {
-            resultSet.close();
+//            resultSet.close();
             statement.close();
             connection.close();
         }
