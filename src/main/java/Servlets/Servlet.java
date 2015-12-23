@@ -1,7 +1,6 @@
 package Servlets;
 
 import Database.DatabaseHelper;
-import Database.Tables.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -11,50 +10,61 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
 
+// Ctrl + Alt + O / Ctrl + Alt + L
+// DAO - Data Access Object
+// Query Submit Route: JSP - Servlet - DAO - DB
 @WebServlet("/mainPage")
 public class Servlet extends HttpServlet {
 
     DatabaseHelper db;
     List<Object> list;
+
     @Override
-    public void init(ServletConfig servletConfig){
-        db=new DatabaseHelper();
+    public void init(ServletConfig servletConfig) {
+        db = new DatabaseHelper();
         db.UsingDatabase();
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("POST!");
-        String text=request.getParameter("input");
-        System.out.println(text);
 
-        response.sendRedirect("index");
+        request.setCharacterEncoding("UTF-8");
+        System.out.println("POST!");
+        System.out.println(request.getParameter("tf1"));
+        Enumeration parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            try {
+                String sql = (String) parameterNames.nextElement();
+                System.out.println(sql);
+                //System.out.println(paramaterNames.nextElement());
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try{
-       request.setCharacterEncoding("UTF-8");
-       response.setCharacterEncoding("UTF-8");
-
-        //response.setContentType("text/html");
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
 
 
+            //response.setContentType("text/html");
 
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-        dispatcher.forward(request, response);
-        db.CloseDatabase();}
-        catch (Exception e){
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/example.jsp");
+            dispatcher.forward(request, response);
+            db.CloseDatabase();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

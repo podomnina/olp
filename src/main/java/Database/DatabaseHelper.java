@@ -20,20 +20,6 @@ public class DatabaseHelper {
             connection = DriverManager.getConnection("jdbc:sqlite:Medicineclinic.db");
             statement = connection.createStatement();
 
-/*            CreateTables(statement);
-
-            InsertBranchRecord(statement, "ул.Родионова д.197", "4609385");
-            InsertBranchRecord(statement, "ул.Бекетова д.13", "4691827");
-            InsertDoctorRecord(statement,"Иванов","Хирургия",1);
-            InsertReceptionRecord(statement, "10.10.15");
-            InsertServiceRecord(statement, "Консультация", 500);
-
-            resultSet = statement.executeQuery("SELECT * FROM BRANCH");
-            while (resultSet.next()){
-                System.out.println("BRANCH ADDRESS:" + resultSet.getString("ADDRESS"));
-            }
-
-*/
         }
         catch (Exception e)
         {
@@ -53,62 +39,16 @@ public class DatabaseHelper {
         }
     }
 
-    public ArrayList<Branch> RequestBranch() throws SQLException {
-        ArrayList<Branch> list=new ArrayList<Branch>();
-        resultSet = statement.executeQuery("SELECT * FROM BRANCH");
-
+    public String makeRequest(String sql) throws SQLException {
+        resultSet = statement.executeQuery(sql);
+        String response=null;
         while (resultSet.next()){
-            int id=Integer.parseInt(resultSet.getString("ID"));
-            String address=resultSet.getString("ADDRESS");
-            String number=resultSet.getString("NUMBER");
-            Branch branch=new Branch(id,address,number);
-            list.add(branch);
+            System.out.println(response.toString());
         }
 
-        return list;
+        return response;
     }
-    public ArrayList<Doctor> RequestDoctor() throws SQLException {
-        ArrayList<Doctor> list=new ArrayList<Doctor>();
-        resultSet = statement.executeQuery("SELECT * FROM DOCTOR");
 
-        while (resultSet.next()){
-            int id=Integer.parseInt(resultSet.getString("ID"));
-            String name=resultSet.getString("NAME");
-            String specialization=resultSet.getString("SPECIALIZATION");
-            int id_branch=Integer.parseInt(resultSet.getString("ID_BRANCH"));
-            Doctor doctor=new Doctor(id,name,specialization,id_branch);
-            list.add(doctor);
-        }
-
-        return list;
-    }
-    public ArrayList<Reception> RequestReception() throws SQLException {
-        ArrayList<Reception> list=new ArrayList<Reception>();
-        resultSet = statement.executeQuery("SELECT * FROM RECEPTION");
-
-        while (resultSet.next()){
-            int id=Integer.parseInt(resultSet.getString("ID"));
-            String date=resultSet.getString("DATE");
-            Reception reception=new Reception(id,date);
-            list.add(reception);
-        }
-
-        return list;
-    }
-    public ArrayList<Service> RequestService() throws SQLException {
-        ArrayList<Service> list=new ArrayList<Service>();
-        resultSet = statement.executeQuery("SELECT * FROM SERVICE");
-
-        while (resultSet.next()){
-            int id=Integer.parseInt(resultSet.getString("ID"));
-            String name=resultSet.getString("NAME");
-            int price=Integer.parseInt(resultSet.getString("PRICE"));
-            Service service = new Service(id,name,price);
-            list.add(service);
-        }
-
-        return list;
-    }
 
     public static void CreateTables(Statement statement) throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS BRANCH " +
