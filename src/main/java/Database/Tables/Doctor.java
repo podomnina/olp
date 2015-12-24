@@ -10,7 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by PolinaDomnina on 08.11.2015.
  */
-public class Doctor {
+public class Doctor extends Object{
     private int id_doctor;
     private String doctor_name;
     private String specialization;

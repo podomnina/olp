@@ -10,7 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by PolinaDomnina on 08.11.2015.
  */
-public class Reception {
+public class Reception extends Object{
     private int id_reception;
     private String date;
 

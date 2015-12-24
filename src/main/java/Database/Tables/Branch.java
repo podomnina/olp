@@ -10,7 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by PolinaDomnina on 03.11.2015.
  */
-public class Branch {
+public class Branch extends Object {
     private int id_branch;
     private String branch_address;
     private String branch_number;

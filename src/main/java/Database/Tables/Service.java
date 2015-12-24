@@ -10,7 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by PolinaDomnina on 08.11.2015.
  */
-public class Service {
+public class Service extends Object{
     private int id_service;
     private String service_name;
     private int price;

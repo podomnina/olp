@@ -26,6 +26,7 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         db = new DatabaseHelper();
         db.UsingDatabase();
+        list=null;
         /*
         try {
             db.CreateTables();
@@ -44,8 +45,8 @@ public class Servlet extends HttpServlet {
         System.out.println("POST!");
         System.out.println(request.getParameter("tf1"));
         try {
-            db.makeRequest(request.getParameter("tf1"));
-        } catch (java.sql.SQLException e){
+            list=db.makeRequest(request.getParameter("tf1"));
+        } catch (Exception e){
             e.printStackTrace();
         }
 
