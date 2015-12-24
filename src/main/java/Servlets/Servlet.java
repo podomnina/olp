@@ -27,15 +27,16 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         db = new DatabaseHelper();
         db.UsingDatabase();
+
         /*
         try {
             db.CreateTables();
-            db.InsertBranchRecord("Branch1","1");
-            db.InsertDoctorRecord("Doctor1","Spec1",1);
+            db.InsertBranchRecord("Branch2","2");
+            db.InsertDoctorRecord("Doctor3","Spec3",2);
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
-        }
-        */
+        }*/
+
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

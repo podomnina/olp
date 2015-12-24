@@ -45,38 +45,8 @@ public class DatabaseHelper {
         String str = resultSetToJSON(resultSet);
         pw.println(str);
         System.out.println(str);
-
-
-        /*
-        int colomnCount = resultSet.getMetaData().getColumnCount();
-        while(resultSet.next()) {
-            for (int i=1; i<=colomnCount; i++){
-                pw.print(resultSet.getString(i)+" ");
-            }
-            pw.println();
-        }*/
     }
 
-    /*
-    public JsonObject resultSetToJSON(ResultSet rs) throws java.sql.SQLException {
-        JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
-        JsonArrayBuilder colsArrayBuilder = Json.createArrayBuilder();
-        for (int i=1; i<=rs.getMetaData().getColumnCount(); i++) {
-            colsArrayBuilder.add(rs.getMetaData().getColumnName(i));
-        }
-        responseBuilder.add("colNames",colsArrayBuilder);
-        JsonArrayBuilder dataArrayBuilder = Json.createArrayBuilder();
-        while (rs.next()){
-            JsonArrayBuilder tmpBuilder = Json.createArrayBuilder();
-            for (int i=1; i<=rs.getMetaData().getColumnCount(); i++) {
-                tmpBuilder.add(rs.getString(i));
-            }
-            dataArrayBuilder.add(tmpBuilder);
-        }
-        responseBuilder.add("data",dataArrayBuilder);
-        JsonObject response = responseBuilder.build();
-        return response;
-    }*/
 
     public String resultSetToJSON(ResultSet rs) throws java.sql.SQLException {
         String response = "{ \"colNames\":[";
