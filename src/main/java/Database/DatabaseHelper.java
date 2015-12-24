@@ -2,6 +2,7 @@ package Database;
 
 import Database.Tables.*;
 
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -19,8 +20,6 @@ public class DatabaseHelper {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:Medicineclinic.db");
             statement = connection.createStatement();
-            CreateTables();
-
 
         }
         catch (Exception e)
@@ -41,75 +40,67 @@ public class DatabaseHelper {
         }
     }
 
-    public ArrayList<Object> makeRequest(String sql) throws SQLException {
-
+    public void makeRequest(String sql, PrintWriter pw) throws SQLException {
         resultSet = statement.executeQuery(sql);
-        ArrayList<Object> list=null;
-        int choice=-1;
-        if (sql.contains(" branch"))
-            choice=0;
-        else if (sql.contains(" doctor"))
-            choice=1;
-        else if (sql.contains(" reception"))
-            choice=2;
-        else if (sql.contains(" service"))
-            choice=3;
+        String str = resultSetToJSON(resultSet);
+        pw.println(str);
+        System.out.println(str);
 
-        switch (choice){
-            case 0:
-                list=new ArrayList<Object>();
-                while (resultSet.next()){
-                    int id=Integer.parseInt(resultSet.getString("ID"));
-                    String address=resultSet.getString("ADDRESS");
-                    String number=resultSet.getString("NUMBER");
-                    Branch obj=new Branch(id,address,number);
-                    list.add(obj);
-                }
 
-                break;
-            case 1:
-                list=new ArrayList<Object>();
-                while (resultSet.next()){
-                    int id=Integer.parseInt(resultSet.getString("ID"));
-                    String name=resultSet.getString("NAME");
-                    String spec=resultSet.getString("SPECIALIZATION");
-                    int id_br=Integer.parseInt(resultSet.getString("ID_BRANCH"));
-                    Doctor obj=new Doctor(id,name,spec,id_br);
-                    list.add(obj);
-                }
-                break;
-            case 2:
-                list=new ArrayList<Object>();
-                while (resultSet.next()){
-                    int id=Integer.parseInt(resultSet.getString("ID"));
-                    String date=resultSet.getString("DATE");
-                    Reception obj=new Reception(id,date);
-                    list.add(obj);
-                }
-                break;
-            case 3:
-                list=new ArrayList<Object>();
-                while (resultSet.next()){
-                    int id=Integer.parseInt(resultSet.getString("ID"));
-                    String name=resultSet.getString("NAME");
-                    int price=Integer.parseInt(resultSet.getString("PRICE"));
-                    Service obj=new Service(id,name,price);
-                    list.add(obj);
-                }
-                break;
-        }
-
-      /*  int colomnCount = resultSet.getMetaData().getColumnCount();
+        /*
+        int colomnCount = resultSet.getMetaData().getColumnCount();
         while(resultSet.next()) {
             for (int i=1; i<=colomnCount; i++){
-                System.out.print(resultSet.getString(i)+" ");
+                pw.print(resultSet.getString(i)+" ");
             }
-            System.out.println();
+            pw.println();
         }*/
-
-        return list;
     }
 
+    /*
+    public JsonObject resultSetToJSON(ResultSet rs) throws java.sql.SQLException {
+        JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
+        JsonArrayBuilder colsArrayBuilder = Json.createArrayBuilder();
+        for (int i=1; i<=rs.getMetaData().getColumnCount(); i++) {
+            colsArrayBuilder.add(rs.getMetaData().getColumnName(i));
+        }
+        responseBuilder.add("colNames",colsArrayBuilder);
+        JsonArrayBuilder dataArrayBuilder = Json.createArrayBuilder();
+        while (rs.next()){
+            JsonArrayBuilder tmpBuilder = Json.createArrayBuilder();
+            for (int i=1; i<=rs.getMetaData().getColumnCount(); i++) {
+                tmpBuilder.add(rs.getString(i));
+            }
+            dataArrayBuilder.add(tmpBuilder);
+        }
+        responseBuilder.add("data",dataArrayBuilder);
+        JsonObject response = responseBuilder.build();
+        return response;
+    }*/
+
+    public String resultSetToJSON(ResultSet rs) throws java.sql.SQLException {
+        String response = "{ \"colNames\":[";
+        response = response + '"' + rs.getString(1) + '"';
+        for (int i=2; i<=rs.getMetaData().getColumnCount(); i++){
+            response = response + ',' + '"' + rs.getMetaData().getColumnLabel(i) + '"';
+        }
+        response += "], \"dataArray\":[";
+        rs.next();
+        response +="[" + '"' + rs.getString(1) + '"';
+        for (int i=2; i<=rs.getMetaData().getColumnCount(); i++) {
+            response +=", " + '"' + rs.getString(i) + '"';
+        }
+        response +="]";
+        while (rs.next()){
+            response +=",[" + '"' + rs.getString(1) + '"';
+            for (int i=2; i<=rs.getMetaData().getColumnCount(); i++) {
+                response +=", " + '"' + rs.getString(i) + '"';
+            }
+            response +="]";
+        }
+        response +="]}";
+        return response;
+    }
 
 
     public static void CreateTables() throws SQLException {
