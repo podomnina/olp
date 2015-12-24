@@ -50,7 +50,7 @@ public class DatabaseHelper {
 
     public String resultSetToJSON(ResultSet rs) throws java.sql.SQLException {
         String response = "{ \"colNames\":[";
-        response = response + '"' + rs.getString(1) + '"';
+        response = response + '"' + rs.getMetaData().getColumnLabel(1) + '"';
         for (int i=2; i<=rs.getMetaData().getColumnCount(); i++){
             response = response + ',' + '"' + rs.getMetaData().getColumnLabel(i) + '"';
         }
