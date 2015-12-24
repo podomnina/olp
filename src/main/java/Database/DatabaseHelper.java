@@ -42,8 +42,9 @@ public class DatabaseHelper {
 
     public void makeRequest(String sql, PrintWriter pw) throws SQLException {
         resultSet = statement.executeQuery(sql);
-        System.out.println(resultSetToJSON(resultSet));
-
+        String str = resultSetToJSON(resultSet);
+        pw.println(str);
+        System.out.println(str);
 
 
         /*
