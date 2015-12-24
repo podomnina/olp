@@ -20,6 +20,7 @@ public class DatabaseHelper {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:Medicineclinic.db");
             statement = connection.createStatement();
+            CreateTables();
 
         }
         catch (Exception e)
@@ -57,21 +58,25 @@ public class DatabaseHelper {
         for (int i=2; i<=rs.getMetaData().getColumnCount(); i++){
             response = response + ',' + '"' + rs.getMetaData().getColumnLabel(i) + '"';
         }
-        response += "], \"dataArray\":[";
-        rs.next();
-        response +="[" + '"' + rs.getString(1) + '"';
-        for (int i=2; i<=rs.getMetaData().getColumnCount(); i++) {
-            response +=", " + '"' + rs.getString(i) + '"';
-        }
-        response +="]";
-        while (rs.next()){
-            response +=",[" + '"' + rs.getString(1) + '"';
-            for (int i=2; i<=rs.getMetaData().getColumnCount(); i++) {
-                response +=", " + '"' + rs.getString(i) + '"';
+        if (rs.next()) {
+            response += "], \"dataArray\":[";
+
+
+            response += "[" + '"' + rs.getString(1) + '"';
+            for (int i = 2; i <= rs.getMetaData().getColumnCount(); i++) {
+                response += ", " + '"' + rs.getString(i) + '"';
             }
-            response +="]";
+            response += "]";
+            while (rs.next()) {
+                response += ",[" + '"' + rs.getString(1) + '"';
+                for (int i = 2; i <= rs.getMetaData().getColumnCount(); i++) {
+                    response += ", " + '"' + rs.getString(i) + '"';
+                }
+                response += "]";
+            }
         }
-        response +="]}";
+            response += "]}";
+
         return response;
     }
 
