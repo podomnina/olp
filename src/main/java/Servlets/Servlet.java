@@ -26,8 +26,16 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         db = new DatabaseHelper();
         db.UsingDatabase();
+        /*
+        try {
+            db.CreateTables();
+            db.InsertBranchRecord("Branch1","1");
+            db.InsertDoctorRecord("Doctor1","Spec1",1);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        */
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,17 +43,11 @@ public class Servlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         System.out.println("POST!");
         System.out.println(request.getParameter("tf1"));
-        Enumeration parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            try {
-                String sql = (String) parameterNames.nextElement();
-                System.out.println(sql);
-                //System.out.println(paramaterNames.nextElement());
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
+        try {
+            db.makeRequest(request.getParameter("tf1"));
+        } catch (java.sql.SQLException e){
+            e.printStackTrace();
         }
-
 
     }
 
@@ -56,14 +58,9 @@ public class Servlet extends HttpServlet {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
-
-
-            //response.setContentType("text/html");
-
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/example.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
             dispatcher.forward(request, response);
-            db.CloseDatabase();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

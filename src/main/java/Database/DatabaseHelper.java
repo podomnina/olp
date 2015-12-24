@@ -39,18 +39,23 @@ public class DatabaseHelper {
         }
     }
 
-    public String makeRequest(String sql) throws SQLException {
+    public void makeRequest(String sql) throws SQLException {
         resultSet = statement.executeQuery(sql);
-        String response=null;
-        while (resultSet.next()){
-            System.out.println(response.toString());
+
+        int colomnCount = resultSet.getMetaData().getColumnCount();
+        while(resultSet.next()) {
+            for (int i=1; i<=colomnCount; i++){
+                System.out.print(resultSet.getString(i));
+            }
+            System.out.println();
         }
 
-        return response;
+
     }
 
 
-    public static void CreateTables(Statement statement) throws SQLException {
+
+    public static void CreateTables() throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS BRANCH " +
                 "(ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " ADDRESS        CHAR(50), " +
@@ -86,19 +91,20 @@ public class DatabaseHelper {
                 "ID_DOCTOR      INT   REFERENCES DOCTOR(ID)," +
                 "ID_RECEPTION   INT   REFERENCES RECEPTION(ID) )";
         statement.executeUpdate(sql);
+        statement.close();
 
     }
 
-    public static void InsertBranchRecord(Statement statement,String address,String number) throws SQLException {
+    public void InsertBranchRecord(String address,String number) throws SQLException {
         statement.execute("insert into 'BRANCH' ('ADDRESS', 'NUMBER') values ('"+address+"', '"+number+"'); ");
     }
-    public static void InsertDoctorRecord(Statement statement,String name,String specialization,int id_branch) throws SQLException {
+    public void InsertDoctorRecord(String name,String specialization,int id_branch) throws SQLException {
         statement.execute("insert into 'DOCTOR' ('NAME','SPECIALIZATION', 'ID_BRANCH') values ('"+name+"', '"+specialization+"','"+id_branch+"'); ");
     }
-    public static void InsertReceptionRecord(Statement statement,String date) throws SQLException {
+    public void InsertReceptionRecord(Statement statement,String date) throws SQLException {
         statement.execute("insert into 'RECEPTION' ('DATE') values ('"+date+"'); ");
     }
-    public static void InsertServiceRecord(Statement statement,String name,int price) throws SQLException {
+    public void InsertServiceRecord(Statement statement,String name,int price) throws SQLException {
         statement.execute("insert into 'SERVICE' ('NAME', 'PRICE') values ('"+name+"', '"+price+"'); ");
     }
 }
