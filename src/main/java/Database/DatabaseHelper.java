@@ -59,7 +59,7 @@ public class DatabaseHelper {
             response = response + ',' + '"' + rs.getMetaData().getColumnLabel(i) + '"';
         }
         if (rs.next()) {
-        response += "], \"dataArray\":[";
+            response += "], \"dataArray\":[";
 
 
             response += "[" + '"' + rs.getString(1) + '"';
@@ -74,8 +74,9 @@ public class DatabaseHelper {
                 }
                 response += "]";
             }
-            response += "]}";
         }
+            response += "]}";
+
         return response;
     }
 
