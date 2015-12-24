@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         db = new DatabaseHelper();
         db.UsingDatabase();
-        list=null;
         /*
         try {
             db.CreateTables();
@@ -44,11 +44,13 @@ public class Servlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         System.out.println("POST!");
         System.out.println(request.getParameter("tf1"));
+        PrintWriter pw = response.getWriter();
         try {
-            list=db.makeRequest(request.getParameter("tf1"));
-        } catch (Exception e){
+            db.makeRequest(request.getParameter("tf1"),pw);
+        } catch (java.sql.SQLException e){
             e.printStackTrace();
         }
+
 
     }
 
